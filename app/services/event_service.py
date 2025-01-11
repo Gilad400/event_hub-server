@@ -1,6 +1,6 @@
 import requests
 
-api_key = "my_api_key"
+api_key = "rJl9LnZCTj5lHVrGDbdObgTiRRmlnSdk"
 url = "https://app.ticketmaster.com/discovery/v2/events.json"
 
 
@@ -24,7 +24,7 @@ def combined_search(keyword=None, city=None, state_code=None,
                     start_date=None, end_date=None, segment=None):
     """Combine multiple search criteria"""
     params = {'apikey': api_key}
-        
+    
     if keyword:
         params['keyword'] = keyword
     if city:
@@ -63,30 +63,3 @@ def _make_request(params):
         return response.json()
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
-
-#testing
-if __name__ == "__main__":
-    # Search for events using combined search
-    search_results = combined_search(
-        keyword="football"
-    )
-    
-    # Extract the first event's ID (if available)
-    events = search_results.get("_embedded", {}).get("events", [])
-    if events:
-        first_event_id = events[0].get("id")
-        print("First Event ID:", first_event_id)
-        
-        # Fetch and display event details by ID
-        if first_event_id:
-            #event_details = search_by_id(first_event_id)
-            #print("Event Details:", event_details)
-            
-            # Fetch and display the event's image
-            image_url = get_event_image(first_event_id)
-            print("Event Image URL:", image_url)
-        else:
-            print("No valid event ID found.")
-    else:
-        print("No events found.")
-    
