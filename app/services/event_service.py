@@ -32,9 +32,9 @@ def combined_search(keyword=None, city=None, state_code=None,
     if state_code:
         params['stateCode'] = state_code
     if start_date:
-        params['startDateTime'] = start_date
+        params['startDateTime'] = f"{start_date}T00:00:00Z"
     if end_date:
-        params['endDateTime'] = end_date
+        params['endDateTime'] = f"{end_date}T23:59:59Z"
     if segment:
         params['segmentName'] = segment
            
@@ -49,8 +49,6 @@ def get_event_image(event_id):
         event = events[0]
         images = event.get("images", [])
     if len(images) != 0:
-        #return images[0].get("url", "No image URL found.")
-        #get list of images
         return [image.get("url", "No image URL found.") for image in images] 
     
     return "No images available for this event."

@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from services.event_service import combined_search, get_event_image
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/events/search', methods=['GET'])
 def search_events():
