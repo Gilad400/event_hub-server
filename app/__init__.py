@@ -1,27 +1,21 @@
 from flask import Flask
-from flask_pymongo import PyMongo
-from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-
+from flask_pymongo import PyMongo
 from app.config import Config
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
-allow_origins = [
-    Config.DEV_ORIGIN,
-    Config.PROD_ORIGIN
-]
+
 app.config['MONGO_URI'] = Config.MONGO_URI
 CORS(app, resources={r"/*": {
-    "origins": allow_origins,
-    "methods": ["GET", "POST"],
+    "origins": "http://localhost:3000",
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     "allow_headers": ["Authorization", "Content-Type"],
     "supports_credentials": True
 }})
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
-from app.routes import auth_routes, cocktail_routes, favorite_routes
-
-auth_routes.register_routes(app)
-cocktail_routes.register_routes(app)
-favorite_routes.register_routes(app)
+# Register blueprints
+from app.routes import main_bp
+app.register_blueprint(main_bp)
